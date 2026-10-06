@@ -215,7 +215,7 @@ def restore(archive, target):
     dctx = zstd.ZstdDecompressor(max_window_size=1 << MAX_WINDOW_LOG)
     with open(archive, "rb") as raw, dctx.stream_reader(raw) as zr, \
             tarfile.open(fileobj=zr, mode="r|") as tar:
-        tar.extractall(target)
+        tar.extractall(target, filter="data")  # refuse ../, absolute paths, outside links
     print(f"Restored to {target}")
 
 
